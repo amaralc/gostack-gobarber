@@ -1675,9 +1675,127 @@
 
 ### Configurando Multer
 [Voltar para índice](#indice)
+[Video](https://skylab.rocketseat.com.br/node/continuando-api-do-go-barber/group/envio-de-arquivos/lesson/configurando-multer-2)
+
+  Objtivo: criar funcionalidade de upload da aplicacao para que usuario que for prestador de servico tenha um avatar dentro da aplicacao (foto).
+
+    Obs: Existem varias formas de tratar upload de arquivos dentro da aplicação.
+      * Forma 1: enviar enviar imagem junto com outros dados durante o cadastro do usuário em uma única requisição;
+      * Forma 2: upload de arquivos, isolado do restante. Imagem enviada ao servidor para um banco de dados e servidor retorna um ID da imagem. Quando preenchemos o restante do cadastro, enviamos apenas o ID em uma segunda requisicao. Assim mantemos a estrutura de JSON para enviar os dados visto que JSON não suporta envio de arquivos.
+
+  * (terminal) Instala biblioteca 'multer' para lidar com 'multipart/form-data': `yarn add multer` ;
+
+    Obs: Quando precisamos lidar com arquivos nas nossas requisicoes de chamadas ao servidor, precisamos enviar essas requisicoes em um formato chamado 'multipart/form-data' (único formato que suporta envio de arquivos físicos). Para lidar com esse tipo de requisição iremos lidar com a biblioteca 'Multer'.
+
+  * Cria pasta 'tmp' na raiz do projeto, fora da pasta 'src';
+  * Cria pasta 'uploads' dentro da pasta 'tmp';
+  * Cria arquivo **src/config/multer.js** (configuracao da funcao de upload de arquivos):
+
+    ```js
+    /* --------------------------------- IMPORTS ---------------------------------*/
+    import multer from 'multer';
+    import crypto from 'crypto';
+    import { extname, resolve } from 'path';
+
+    /* --------------------------------- CONTENT ---------------------------------*/
+    /* --------------------------------- EXPORTS ---------------------------------*/
+    export default {
+      /**
+      * Como multer vai guardar nossos arquivos de imagem.
+      * Obs.: existem varias formas de armazenar, como em CDNs (Content Delivery
+      * Networks) tipo a Amazon s3 e digital ocean spaces). No nosso caso iremos
+      * guardar as imagens dentro dos arquivos da aplicacao, na pasta 'tmp' usando
+      * o multer.diskStorage ;
+      */
+      storage: multer.diskStorage({
+        /** Destino do arquivo que esta sendo enviado para a aplicacao */
+        destination: resolve(__dirname, '..', '..', 'tmp', 'uploads'),
+
+        /**
+        * Controle da formatacao do nome do arquivo enviado pelo usuario.
+        * Evita que usuarios enviem caracteres estranhos ou com nomes de arquivos duplicados.
+        */
+        filename: (req, file, cb) => {
+          /** Configura numero de bytes aleatorios */
+          crypto.randomBytes(16, (err, res) => {
+            /** Se houber erro, retorna callback com erro */
+            if (err) return cb(err);
+
+            /**
+            * Se nao houver erro, envia primeiro argumento como nulo e retorna
+            * string com random bytes concatenada com a extensao do arquivo;
+            */
+            return cb(null, res.toString('hex') + extname(file.originalname));
+          });
+        },
+      }),
+    };
+
+    ```
+
+  * Edita arquivo de rotas inserindo multer, multerConfig e outros:
+
+    ```js
+    /* --------------------------------- IMPORTS ---------------------------------*/
+    import { Router } from 'express';
+    import multer from 'multer';
+    import multerConfig from './config/multer';
+    import UserController from './app/controllers/UserController';
+    import SessionController from './app/controllers/SessionController';
+    import authMiddleware from './app/middlewares/auth';
+
+    /* --------------------------------- CONTENT ---------------------------------*/
+    /** Instancia novo roteador Router do express */
+    const routes = new Router();
+    /** Variavel de configuracao do upload usando multer */
+    const upload = multer(multerConfig);
+
+    /** Define rota PUT para criar novo usuario */
+    routes.post('/users', UserController.store);
+    /** Define rota POST para criar nova session */
+    routes.post('/sessions', SessionController.store);
+
+    /** Define MIDDLEWARE GLOBAL que vale para rotas que vem apos sua declaracao */
+    routes.use(authMiddleware);
+    /** Define rota PUT para editar dados do usuario */
+    routes.put('/users', UserController.update);
+    /**
+    * Define rota POST para upload de arquivos (com middleware e controller local, sem arquivo separado)
+    * Middleware chama variavel upload, metodo 'single' para fazer upload de um arquivo por vez */
+    routes.post('/files', upload.single('file'), (req, res) => {
+      return res.json({ ok: true });
+    });
+
+    /* --------------------------------- EXPORTS ---------------------------------*/
+    export default routes;
+
+    ```
+
+  * (insomnia):
+    * Cria pasta 'Files';
+    * Cria nova requisicao 'Create', tipo 'POST' para 'base_url/files';
+    * Altera 'Body' para 'Multipart Form';
+      * Substitui 'new name' por 'file' (o mesmo valor definido em *upload.single* em **routes.js**);
+      * Substitui 'value' pela opcao 'file';
+    * Seleciona arquivo que deseja enviar;
+    * Em 'environment' cria nova variavel token e salva token:
+      Ex.:
+
+        ```js
+        {
+          "base_url":"http://localhost:3333",
+          "token":"blablabla.blablabla.blablabla"
+        }
+        ```
+    * Em 'Auth' seleciona a opcao 'Bearer' e adiciona o token enviado durante login do usuario (salvo na variavel do base environment);
+      * Opcao de envio de arquivo estara disponivel apenas na rota de edicao quando usuario for
+        editar seu perfil, quando for prestador de servico, na versao web da aplicacao;
+
+  * (terminal) roda servidor: `yarn dev` ;
 
 ### Avatar do usuario
 [Voltar para índice](#indice)
+[Video](https://skylab.rocketseat.com.br/node/continuando-api-do-go-barber/group/envio-de-arquivos/lesson/avatar-do-usuario-1)
 
 ## Funcionalidade de agendamentos
 [Voltar para índice](#indice)
