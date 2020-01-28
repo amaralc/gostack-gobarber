@@ -1,24 +1,36 @@
-# Iniciando back end do gobarber
-
 ## Indice
 
-  * [00 Configurando estrutura](#00-configurando-a-estrutura)
-  * [01 Nodemon & Sucrase](#01-nodemon--sucrase)
-  * [02 Conceitos do Docker](#02-conceitos-do-docker)
-  * [03 Configurando o Docker](#03-configurando-o-docker)
-  * [04 Sequelize & MVC](#04-sequelize-&-MVC)
-  * [05 ESLint, Prettier & EditorConfig](#05-eslint-prettier--EditorConfig)
-  * [06 Configurando Sequelize](#06-configurando-sequelize)
-  * [07 Migration de usuario](#07-migration-de-usuario)
-  * [08 Model de usuario](#08-model-de-usuario)
-  * [09 Criando loader de models](#09-criando-loader-de-models)
-  * [10 Cadastro de usuarios](#10-cadastro-de-usuarios)
-  * [11 Gerando hash da senha](#11-gerando-hash-da-senha)
-  * [12 Conceitos de JWT](#12-conceitos-de-jwt)
-  * [13 Autenticacao JWT](#13-autenticacao-jwt)
-  * [14 Middleware de autenticacao](#14-middleware-de-autenticacao)
-  * [15 Update do usuario](#15-update-do-usuario)
-  * [16 Validando dados de entrada](#16-validando-dados-de-entrada)
+  * [Iniciando o backend do gobarber](#iniciando-o-backend-do-gobarber)
+    * [00 Configurando estrutura](#00-configurando-a-estrutura)
+    * [01 Nodemon & Sucrase](#01-nodemon--sucrase)
+    * [02 Conceitos do Docker](#02-conceitos-do-docker)
+    * [03 Configurando o Docker](#03-configurando-o-docker)
+    * [04 Sequelize & MVC](#04-sequelize-&-MVC)
+    * [05 ESLint, Prettier & EditorConfig](#05-eslint-prettier--EditorConfig)
+    * [06 Configurando Sequelize](#06-configurando-sequelize)
+    * [07 Migration de usuario](#07-migration-de-usuario)
+    * [08 Model de usuario](#08-model-de-usuario)
+    * [09 Criando loader de models](#09-criando-loader-de-models)
+    * [10 Cadastro de usuarios](#10-cadastro-de-usuarios)
+    * [11 Gerando hash da senha](#11-gerando-hash-da-senha)
+    * [12 Conceitos de JWT](#12-conceitos-de-jwt)
+    * [13 Autenticacao JWT](#13-autenticacao-jwt)
+    * [14 Middleware de autenticacao](#14-middleware-de-autenticacao)
+    * [15 Update do usuario](#15-update-do-usuario)
+    * [16 Validando dados de entrada](#16-validando-dados-de-entrada)
+
+  * [Continuando API do GoBarber](#continuando-api-do-gobarber)
+    * [Envio de arquivos](#envio-de-arquivos)
+      * [Configurando Multer](#configurando-multer)
+      * [Avatar do usuario](#avatar-do-usuario)
+    * [Funcionalidade de agendamentos](#funcionalidade-de-agendamentos)
+    * [Envio de notificacoes](#envio-de-notificacoes)
+    * [Cancelamento e envio de email](#cancelamento-e-envio-de-email)
+    * [Configuracoes avancadas](#configuracoes-avancadas)
+
+
+# Iniciando back end do gobarber
+[Voltar para índice](#indice)
 
 ## 00 Configurando estrutura
 [Voltar para índice](#indice)
@@ -1654,6 +1666,27 @@
       * Requisicao com 'password' e sem 'oldPassword';
       * Requisicao com 'password' e 'confirmPassword' diferentes;
       * [...];
+
+# Continuando API do GoBarber
+[Voltar para índice](#indice)
+
+## Envio de arquivos
+[Voltar para índice](#indice)
+
+### Configurando Multer
+[Voltar para índice](#indice)
+
+### Avatar do usuario
+[Voltar para índice](#indice)
+
+## Funcionalidade de agendamentos
+[Voltar para índice](#indice)
+## Envio de notificacoes
+[Voltar para índice](#indice)
+## Cancelamento e envio de email
+[Voltar para índice](#indice)
+## Configuracoes avancadas
+[Voltar para índice](#indice)
 
 
 
