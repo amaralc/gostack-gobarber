@@ -6,6 +6,7 @@ import authMiddleware from './app/middlewares/auth';
 import UserController from './app/controllers/UserController';
 import SessionController from './app/controllers/SessionController';
 import FileController from './app/controllers/FileController';
+import ProviderController from './app/controllers/ProviderController';
 
 /* --------------------------------- CONTENT ---------------------------------*/
 /** Instancia novo roteador Router do express */
@@ -28,6 +29,8 @@ routes.put('/users', UserController.update);
  * um arquivo por vez
  */
 routes.post('/files', upload.single('file'), FileController.store);
+/** Define rota GET para listagem de usuários que são providers */
+routes.get('/providers', ProviderController.index);
 
 /* --------------------------------- EXPORTS ---------------------------------*/
 export default routes;
