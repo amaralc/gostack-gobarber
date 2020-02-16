@@ -1,5 +1,6 @@
 /* --------------------------------- IMPORTS ---------------------------------*/
 import express from 'express';
+import path from 'path';
 import routes from './routes';
 /*
  ** Importa arquivo que faz conexao com banco de dados. Nao é necessario passar
@@ -21,6 +22,15 @@ class App {
   middlewares() {
     /* Prepara app para receber requisicoes em formato json */
     this.server.use(express.json());
+    /**
+     * Usa recurso express.static para servir arquivos
+     * estáticos (PNG, CSS, HTML), acessados diretamente
+     * pelo navegador.
+     */
+    this.server.use(
+      '/files',
+      express.static(path.resolve(__dirname, '..', 'tmp', 'uploads'))
+    );
   }
 
   routes() {
